@@ -4,7 +4,7 @@ module TsvBuddy
   #  from TSV or Yaml files. For example, it could be an Array of Hashes.
   attr_accessor :data
 
-  # require 'yaml'
+  require 'yaml'
 
   # take_tsv: converts a String with TSV data into @data
   # parameter: tsv - a String in TSV format
