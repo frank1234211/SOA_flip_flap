@@ -4,24 +4,24 @@ module TsvBuddy
   #  from TSV or Yaml files. For example, it could be an Array of Hashes.
   attr_accessor :data
 
-  require 'yaml'
+  # require 'yaml'
 
   # take_tsv: converts a String with TSV data into @data
   # parameter: tsv - a String in TSV format
   def take_tsv(tsv)
-    columns_names = []
+    # columns_names = [] Unused variable - columns_names & column_names
     # lines = [] Unnecessary since you define lines on next line
     lines = tsv.split("\n")
     column_names = lines[0].split("\t")
     column_names.map!(&:chomp) # You can do this instead
     lines.shift
-    lines.each do |line|
+    @data = lines.map do |line|
       values = line.split("\t")
       element = {} # This is preferred to Hash.new
-      columns_names.each_index do |index|
-        element[column_names[index]] = values[index].chomp
-        @data.push(element)
+      column_names.each_index do |index|
+        element["#{column_names[index]}"] = values[index].chomp
       end
+      element
     end # Missing this 'end'
   end
 
