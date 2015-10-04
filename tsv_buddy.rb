@@ -9,35 +9,34 @@ module TsvBuddy
   # take_tsv: converts a String with TSV data into @data
   # parameter: tsv - a String in TSV format
   def take_tsv(tsv)
-      columns_names=[]
-      lines=[]
-      lines=tsv.split("\n")
-      column_names=lines[0].split("\t")
-      column_names.map!{|x| x.chomp}
-      lines.shift
-      lines.each do |line|
-        values = line.split("\t")
-        element=Hash.new
-        columns_names.each_index do |index|
-              element[column_names[index]]=values[index].chomp
+    columns_names = []
+    # lines = [] Unnecessary since you define lines on next line
+    lines = tsv.split("\n")
+    column_names = lines[0].split("\t")
+    column_names.map!(&:chomp) # You can do this instead
+    lines.shift
+    lines.each do |line|
+      values = line.split("\t")
+      element = {} # This is preferred to Hash.new
+      columns_names.each_index do |index|
+        element[column_names[index]] = values[index].chomp
         @data.push(element)
       end
+    end # Missing this 'end'
   end
 
   # to_tsv: converts @data into tsv string
   # returns: String in TSV format
   def to_tsv
-      
-      column_names=@data[0].keys
-      tsv_string=""
-      column_names.each{|column_name| tsv_string.concat(column_name+"\t")}
-
-      
-      @data.each_index {|index| 
-        temp_map = data[index]
-        temp_map.each{|key,value| tsv_string.concat(value+"\t")}
-        tsv_string.concat("\n")
-      }
-      return tsv_string
+    column_names = @data[0].keys
+    tsv_string = ''
+    column_names.each { |column_name| tsv_string.concat(column_name + "\t") }
+    @data.each_index do |index| # Use do-end for multiline block
+      temp_map = data[index]
+      temp_map.each { |_key, value| tsv_string.concat(value + "\t") }
+      # Using '_key' because 'key' is not used inside block
+      tsv_string.concat("\n")
+    end
+    tsv_string # Avoid return keyword
   end
 end
