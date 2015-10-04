@@ -29,14 +29,15 @@ module TsvBuddy
   # returns: String in TSV format
   def to_tsv
     column_names = @data[0].keys
-    tsv_string = ''
-    column_names.each { |column_name| tsv_string.concat(column_name + "\t") }
+    tsv_string = column_names.join("\t") + "\n"
+    # column_names.each { |column_name| tsv_string.concat(column_name + "\t") }
     @data.each_index do |index| # Use do-end for multiline block
       temp_map = data[index]
-      temp_map.each { |_key, value| tsv_string.concat(value + "\t") }
+      values = temp_map.map { |_key, value| value }.join("\t")
       # Using '_key' because 'key' is not used inside block
-      tsv_string.concat("\n")
+      tsv_string.concat(values + "\n")
     end
-    tsv_string # Avoid return keyword
+    # Avoid return keyword
+    tsv_string
   end
 end
